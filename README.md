@@ -1,19 +1,13 @@
-# Gestion des etudiants – PARTIE 1
+# Gestion des étudiants – PARTIE 1
 
 ## Description
-Application Flask modulaire pour la gestion des etudiants, enseignants et notes.
+Application Flask modulaire pour la gestion des étudiants, enseignants et notes.
 
 ## Lancer le projet
 ```bash
 pip install -r requirements.txt
-python run.py
-```
-
-## Migrations (schema)
-Si tu modifies les modeles, pense a appliquer les migrations :
-```bash
 flask db upgrade
-```
+python run.py
 
 ## Admin par defaut
 Par defaut :
