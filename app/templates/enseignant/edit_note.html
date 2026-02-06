@@ -1,0 +1,42 @@
+{% extends "base/base_enseignant.html" %}
+
+{% block title %}Modifier note{% endblock %}
+{% block page_title %}Modifier la note{% endblock %}
+{% block page_subtitle %}Etudiant: {{ etudiant.full_name or etudiant.username }}{% endblock %}
+{% block page_actions %}
+<a class="btn-ghost" href="{{ url_for('enseignant.notes_etudiant', etudiant_id=etudiant.id) }}">Retour</a>
+<a class="btn" href="{{ url_for('enseignant.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Formulaire de modification de note -->
+<div class="card">
+    <form method="POST">
+        <label>Matiere</label>
+        <select name="matiere_id" required>
+            {% for m in matieres %}
+                <option value="{{ m.id }}" {% if m.id == note.matiere_id %}selected{% endif %}>
+                    {{ m.nom }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Note (0-20)</label>
+        <input type="number" step="0.01" min="0" max="20" name="valeur" value="{{ note.valeur }}">
+
+        <label>
+            <input type="checkbox" name="absence" {% if note.absence %}checked{% endif %}>
+            Etudiant absent
+        </label>
+
+        <label>Appreciation</label>
+        <textarea name="appreciation" rows="4" cols="40"
+                  placeholder="Appreciation de l'enseignant (optionnel)">{{ note.appreciation }}</textarea>
+
+        <div class="actions-row">
+            <button class="btn" type="submit">Enregistrer</button>
+            <a class="btn-ghost" href="{{ url_for('enseignant.notes_etudiant', etudiant_id=etudiant.id) }}">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

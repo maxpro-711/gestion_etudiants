@@ -1,0 +1,51 @@
+{% extends "base/base_enseignant.html" %}
+
+{% block title %}Notes{% endblock %}
+{% block page_title %}Notes de {{ etudiant.full_name or etudiant.username }}{% endblock %}
+{% block page_actions %}
+<a class="btn" href="{{ url_for('enseignant.add_note_etudiant', etudiant_id=etudiant.id) }}">Ajouter</a>
+<a class="btn-ghost" href="{{ url_for('enseignant.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Bandeau etudiant -->
+<div class="card actions-row">
+    {% if etudiant.profile_image %}
+        <img src="{{ url_for('static', filename='uploads/' ~ etudiant.profile_image) }}" alt="Profil" style="width:64px; height:64px; border-radius:16px;">
+    {% endif %}
+    <div>
+        <div class="card-title">{{ etudiant.full_name or etudiant.username }}</div>
+        <div class="page-subtitle">Espace notes</div>
+    </div>
+</div>
+
+<!-- Tableau des notes -->
+<table>
+<tr>
+    <th>Matiere</th>
+    <th>Note</th>
+    <th>Absent</th>
+    <th>Appreciation</th>
+    <th>Date</th>
+    <th>Actions</th>
+</tr>
+
+{% for n in notes %}
+<tr>
+    <td>{{ n.matiere.nom }}</td>
+    <td>{{ n.valeur }}</td>
+    <td>{{ "Oui" if n.absence else "Non" }}</td>
+    <td>{{ n.appreciation or "-" }}</td>
+    <td>{{ n.date_ajout.strftime("%d/%m/%Y") }}</td>
+    <td class="actions-row">
+        <a class="btn-ghost" href="{{ url_for('enseignant.edit_note_etudiant', etudiant_id=etudiant.id, note_id=n.id) }}">Modifier</a>
+        <a class="btn-outline" href="{{ url_for('enseignant.delete_note_etudiant', etudiant_id=etudiant.id, note_id=n.id) }}">Supprimer</a>
+    </td>
+</tr>
+{% else %}
+<tr>
+    <td colspan="6">Aucune note</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

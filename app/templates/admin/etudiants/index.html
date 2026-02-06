@@ -1,0 +1,51 @@
+{% extends "base/base_admin.html" %}
+
+{% block title %}Etudiants{% endblock %}
+{% block page_title %}Etudiants{% endblock %}
+{% block page_actions %}
+<a class="btn" href="{{ url_for('admin.add_etudiant') }}">Ajouter</a>
+<a class="btn-ghost" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Recherche + tableau etudiants -->
+<div class="card">
+    <input class="search-input" type="text" placeholder="Rechercher..." v-model="searchQuery">
+</div>
+
+<table>
+    <tr>
+        <th>Profil</th>
+        <th>Matricule</th>
+        <th>Nom</th>
+        <th>Prenom</th>
+        <th>Login</th>
+        <th>Classe</th>
+        <th>Actions</th>
+    </tr>
+    {% for e in etudiants %}
+    <tr v-show="matches('{{ (e.matricule or '') ~ ' ' ~ (e.nom or '') ~ ' ' ~ (e.prenom or '') ~ ' ' ~ e.username }}')">
+        <td>
+            {% if e.profile_image %}
+                <img src="{{ url_for('static', filename='uploads/' ~ e.profile_image) }}" alt="Profil" style="width:40px; height:40px; border-radius:12px;">
+            {% else %}
+                -
+            {% endif %}
+        </td>
+        <td>{{ e.matricule or "-" }}</td>
+        <td>{{ e.nom or "-" }}</td>
+        <td>{{ e.prenom or "-" }}</td>
+        <td>{{ e.username }}</td>
+        <td>{{ e.classe.nom if e.classe else "-" }}</td>
+        <td class="actions-row">
+            <a class="btn-ghost" href="{{ url_for('admin.edit_etudiant', id=e.id) }}">Modifier</a>
+            <a class="btn-outline" href="{{ url_for('admin.delete_etudiant', id=e.id) }}">Supprimer</a>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="7">Aucun etudiant</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

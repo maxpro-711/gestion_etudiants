@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Bienvenue{% endblock %}</title>
+    <!-- Styles globaux partages -->
+    {% include "base/_styles.html" %}
+</head>
+<body class="role-public">
+
+<div class="app-shell">
+    <div class="main" style="width: 100%;">
+        <header class="topbar">
+            <div class="topbar-left">
+                <div>
+                    <div class="page-title">{% block page_title %}Gestion Etudiants{% endblock %}</div>
+                    <div class="page-subtitle">{% block page_subtitle %}{% endblock %}</div>
+                </div>
+            </div>
+            <div class="actions-row">
+                {% block page_actions %}{% endblock %}
+            </div>
+        </header>
+
+        <!-- Zone principale -->
+        <section class="content" id="app" v-cloak style="max-width: 920px; margin: 0 auto;">
+            <!-- Messages flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Contenu des pages publiques -->
+            {% block content %}{% endblock %}
+        </section>
+    </div>
+</div>
+
+<!-- Vue.js (recherche simple) -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script>
+    // Mini app Vue pour filtrer les listes avec searchQuery
+    const { createApp } = Vue;
+    createApp({
+        data() {
+            return {
+                searchQuery: ""
+            };
+        },
+        methods: {
+            matches(text) {
+                if (!this.searchQuery) return true;
+                return String(text).toLowerCase().includes(this.searchQuery.toLowerCase());
+            }
+        }
+    }).mount("#app");
+</script>
+
+</body>
+</html>

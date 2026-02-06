@@ -1,0 +1,33 @@
+{% extends "base/base_admin.html" %}
+
+{% block title %}Classes{% endblock %}
+{% block page_title %}Classes{% endblock %}
+{% block page_actions %}
+<a class="btn" href="{{ url_for('admin.add_classe') }}">Ajouter</a>
+<a class="btn-ghost" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Tableau des classes -->
+<table>
+    <tr>
+        <th>Nom</th>
+        <th>Filiere</th>
+        <th>Actions</th>
+    </tr>
+    {% for classe in classes %}
+    <tr>
+        <td>{{ classe.nom }}</td>
+        <td>{{ classe.filiere.nom }}</td>
+        <td class="actions-row">
+            <a class="btn-ghost" href="{{ url_for('admin.edit_classe', id=classe.id) }}">Modifier</a>
+            <a class="btn-outline" href="{{ url_for('admin.delete_classe', id=classe.id) }}">Supprimer</a>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="3">Aucune classe</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

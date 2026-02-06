@@ -1,0 +1,52 @@
+{% extends "base/base_etudiant.html" %}
+
+{% block title %}Bulletin{% endblock %}
+{% block page_title %}Bulletin{% endblock %}
+{% block page_actions %}
+<a class="btn" href="{{ url_for('etudiant.bulletin_pdf') }}">PDF</a>
+<a class="btn-ghost" href="{{ url_for('etudiant.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Bandeau etudiant -->
+<div class="card actions-row">
+    {% if current_user.profile_image %}
+        <img src="{{ url_for('static', filename='uploads/' ~ current_user.profile_image) }}" alt="Profil" style="width:64px; height:64px; border-radius:16px;">
+    {% endif %}
+    <div>
+        <h3 class="card-title">Etudiant</h3>
+        <p>{{ current_user.full_name or current_user.username }}</p>
+    </div>
+</div>
+
+<!-- Tableau des moyennes -->
+<table>
+<tr>
+    <th>Matiere</th>
+    <th>Moyenne</th>
+    <th>Validee</th>
+    <th>Credits</th>
+</tr>
+
+{% for m in resultat.matieres %}
+<tr>
+    <td>{{ m.matiere }}</td>
+    <td>{{ m.moyenne }}</td>
+    <td>{{ "Oui" if m.validee else "Non" }}</td>
+    <td>{{ m.credits }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<!-- Synthese -->
+<div class="card">
+    <h3 class="card-title">Synthese</h3>
+    <p><strong>Moyenne generale :</strong> {{ resultat.moyenne_generale }}</p>
+    <p><strong>Credits valides :</strong> {{ resultat.credits_valides }} / 60</p>
+    <p><strong>Decision :</strong> {{ resultat.decision }}</p>
+    {% if resultat.mention %}
+    <p><strong>Mention :</strong> {{ resultat.mention }}</p>
+    {% endif %}
+    <p><strong>Date :</strong> {{ now.strftime("%d/%m/%Y") }}</p>
+</div>
+{% endblock %}

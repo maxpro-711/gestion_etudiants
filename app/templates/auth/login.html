@@ -1,0 +1,24 @@
+{% extends "base/base_public.html" %}
+
+{% block title %}Connexion{% endblock %}
+{% block page_title %}Connexion{% endblock %}
+{% block page_subtitle %}Accedez a votre espace{% endblock %}
+
+{% block content %}
+<!-- Formulaire de connexion -->
+<div class="card" style="max-width: 420px; margin: 0 auto;">
+    <h3 class="card-title">Se connecter</h3>
+    <form method="POST">
+        <label>Login</label>
+        <input type="text" name="username" placeholder="login">
+
+        <label>Mot de passe</label>
+        <input type="password" name="password" placeholder="mot de passe">
+
+        <div class="actions-row">
+            <button class="btn" type="submit">Connexion</button>
+            <a class="btn-ghost" href="{{ url_for('home') }}">Retour</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base/base_public.html" %}
+
+{% block title %}Accueil{% endblock %}
+{% block page_title %}Plateforme Academique{% endblock %}
+{% block page_subtitle %}Un espace unique pour piloter filieres, classes, matieres, enseignants et etudiants{% endblock %}
+
+{% block page_actions %}
+<a class="btn" href="{{ url_for('auth.login') }}">Se connecter</a>
+{% endblock %}
+
+{% block content %}
+<!-- Cartes de presentation -->
+<div class="grid cols-2">
+    <div class="card">
+        <h3 class="card-title">Objectif clair</h3>
+        <p>
+            Centraliser la gestion des etudiants et des notes avec un suivi
+            fiable par matiere, par classe et par enseignant.
+        </p>
+        <p class="page-subtitle" style="margin: 10px 0 0 0;">
+            Simplicite d'usage, donnees coherentes, resultats visibles.
+        </p>
+    </div>
+    <div class="card">
+        <h3 class="card-title">Acces rapide</h3>
+        <p>
+            Connectez-vous pour acceder a votre espace et commencer la saisie
+            ou la consultation des notes.
+        </p>
+        <div class="actions-row" style="margin-top: 12px;">
+            <a class="btn-outline" href="{{ url_for('auth.login') }}">Connexion</a>
+            <span class="page-subtitle">Admin, Enseignant, Etudiant</span>
+        </div>
+    </div>
+</div>
+
+<!-- Roles principaux -->
+<div class="grid cols-3">
+    <div class="card">
+        <h3 class="card-title">Administrateur</h3>
+        <p>
+            Parametrage global, gestion des classes et des matieres,
+            creation des comptes.
+        </p>
+        <p class="page-subtitle" style="margin: 10px 0 0 0;">
+            Pilote l'organisation et la coherence des donnees.
+        </p>
+    </div>
+    <div class="card">
+        <h3 class="card-title">Enseignant</h3>
+        <p>
+            Saisie des notes, absences et appreciations sur les matieres
+            qui lui sont attribuees.
+        </p>
+        <p class="page-subtitle" style="margin: 10px 0 0 0;">
+            Suivi clair et rapide de chaque etudiant.
+        </p>
+    </div>
+    <div class="card">
+        <h3 class="card-title">Etudiant</h3>
+        <p>
+            Consultation des notes, bulletins et demandes en temps reel.
+        </p>
+        <p class="page-subtitle" style="margin: 10px 0 0 0;">
+            Vision simple de sa progression academique.
+        </p>
+    </div>
+</div>
+{% endblock %}

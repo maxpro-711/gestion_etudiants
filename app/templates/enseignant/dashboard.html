@@ -1,0 +1,54 @@
+{% extends "base/base_enseignant.html" %}
+
+{% block title %}Dashboard Enseignant{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block page_subtitle %}Choisir un etudiant pour gerer ses notes{% endblock %}
+
+{% block content %}
+<!-- Recherche et statistiques -->
+<div class="card">
+    <input class="search-input" type="text" placeholder="Rechercher un etudiant..." v-model="searchQuery">
+</div>
+
+<div class="grid cols-3">
+    <div class="stat">
+        <div class="stat-label">Etudiants</div>
+        <div class="stat-value">{{ stats.etudiants }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Matieres</div>
+        <div class="stat-value">{{ stats.matieres }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Notes saisies</div>
+        <div class="stat-value">{{ stats.notes }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Absences</div>
+        <div class="stat-value">{{ stats.absences }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Appreciations</div>
+        <div class="stat-value">{{ stats.appreciations }}</div>
+    </div>
+</div>
+
+<!-- Liste des etudiants a selectionner -->
+<div class="card">
+    <h3 class="card-title">Choisir un etudiant</h3>
+    <ul>
+        {% for e in etudiants %}
+            <li v-show="matches('{{ (e.full_name or e.username) }}')">
+                <a href="{{ url_for('enseignant.notes_etudiant', etudiant_id=e.id) }}">
+                    {% if e.profile_image %}
+                        <img src="{{ url_for('static', filename='uploads/' ~ e.profile_image) }}" alt="Profil" style="width:28px; height:28px; border-radius:8px; vertical-align:middle; margin-right:8px;">
+                    {% endif %}
+                    {{ e.full_name or e.username }}
+                </a>
+            </li>
+        {% else %}
+            <li>Aucun etudiant pour le moment.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

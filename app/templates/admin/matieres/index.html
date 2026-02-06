@@ -1,0 +1,35 @@
+{% extends "base/base_admin.html" %}
+
+{% block title %}Matieres{% endblock %}
+{% block page_title %}Matieres{% endblock %}
+{% block page_actions %}
+<a class="btn" href="{{ url_for('admin.add_matiere') }}">Ajouter</a>
+<a class="btn-ghost" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Tableau des matieres -->
+<table>
+    <tr>
+        <th>Nom</th>
+        <th>Coefficient</th>
+        <th>Credits</th>
+        <th>Actions</th>
+    </tr>
+    {% for matiere in matieres %}
+    <tr>
+        <td>{{ matiere.nom }}</td>
+        <td>{{ matiere.coefficient }}</td>
+        <td>{{ matiere.credits }}</td>
+        <td class="actions-row">
+            <a class="btn-ghost" href="{{ url_for('admin.edit_matiere', id=matiere.id) }}">Modifier</a>
+            <a class="btn-outline" href="{{ url_for('admin.delete_matiere', id=matiere.id) }}">Supprimer</a>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="4">Aucune matiere</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

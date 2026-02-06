@@ -1,0 +1,33 @@
+{% extends "base/base_admin.html" %}
+
+{% block title %}Modifier filiere{% endblock %}
+{% block page_title %}Modifier filiere{% endblock %}
+{% block page_actions %}
+<a class="btn-ghost" href="{{ url_for('admin.filieres') }}">Retour</a>
+<a class="btn" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Formulaire de modification de filiere -->
+<div class="card">
+    <form method="POST">
+        <label>Nom</label>
+        <input type="text" name="nom" value="{{ filiere.nom }}">
+
+        <label>Niveau</label>
+        <select name="niveau">
+            <option value="L1" {% if filiere.niveau == "L1" %}selected{% endif %}>L1</option>
+            <option value="L2" {% if filiere.niveau == "L2" %}selected{% endif %}>L2</option>
+            <option value="L3" {% if filiere.niveau == "L3" %}selected{% endif %}>L3</option>
+        </select>
+
+        <label>Annee</label>
+        <input type="text" name="annee" value="{{ filiere.annee }}">
+
+        <div class="actions-row">
+            <button class="btn" type="submit">Modifier</button>
+            <a class="btn-ghost" href="{{ url_for('admin.filieres') }}">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

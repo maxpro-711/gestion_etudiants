@@ -1,0 +1,33 @@
+{% extends "base/base_admin.html" %}
+
+{% block title %}Ajouter filiere{% endblock %}
+{% block page_title %}Ajouter une filiere{% endblock %}
+{% block page_actions %}
+<a class="btn-ghost" href="{{ url_for('admin.filieres') }}">Retour</a>
+<a class="btn" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Formulaire d'ajout de filiere -->
+<div class="card">
+    <form method="POST">
+        <label>Nom</label>
+        <input type="text" name="nom">
+
+        <label>Niveau</label>
+        <select name="niveau">
+            <option value="L1">L1</option>
+            <option value="L2">L2</option>
+            <option value="L3">L3</option>
+        </select>
+
+        <label>Annee</label>
+        <input type="text" name="annee" placeholder="2025-2026">
+
+        <div class="actions-row">
+            <button class="btn" type="submit">Enregistrer</button>
+            <a class="btn-ghost" href="{{ url_for('admin.filieres') }}">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

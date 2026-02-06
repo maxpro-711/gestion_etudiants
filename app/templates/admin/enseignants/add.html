@@ -1,0 +1,47 @@
+{% extends "base/base_admin.html" %}
+
+{% block title %}Ajouter enseignant{% endblock %}
+{% block page_title %}Ajouter un enseignant{% endblock %}
+{% block page_actions %}
+<a class="btn-ghost" href="{{ url_for('admin.enseignants') }}">Retour</a>
+<a class="btn" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Formulaire d'ajout enseignant + attribution matieres -->
+<div class="card">
+    <form method="POST" enctype="multipart/form-data">
+        <label>Nom</label>
+        <input type="text" name="nom">
+
+        <label>Prenom</label>
+        <input type="text" name="prenom">
+
+        <label>Login</label>
+        <input type="text" name="username">
+
+        <label>Mot de passe</label>
+        <input type="password" name="password">
+
+        <label>Photo de profil</label>
+        <input type="file" name="profile_image" accept="image/*">
+
+        <label>Matieres attribuees</label>
+        <div class="grid cols-2">
+            {% for m in matieres %}
+                <label>
+                    <input type="checkbox" name="matiere_ids" value="{{ m.id }}">
+                    {{ m.nom }}
+                </label>
+            {% else %}
+                <p>Aucune matiere disponible.</p>
+            {% endfor %}
+        </div>
+
+        <div class="actions-row">
+            <button class="btn" type="submit">Enregistrer</button>
+            <a class="btn-ghost" href="{{ url_for('admin.enseignants') }}">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

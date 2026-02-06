@@ -1,0 +1,30 @@
+{% extends "base/base_admin.html" %}
+
+{% block title %}Ajouter classe{% endblock %}
+{% block page_title %}Ajouter une classe{% endblock %}
+{% block page_actions %}
+<a class="btn-ghost" href="{{ url_for('admin.classes') }}">Retour</a>
+<a class="btn" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Formulaire d'ajout de classe -->
+<div class="card">
+    <form method="POST">
+        <label>Nom</label>
+        <input type="text" name="nom">
+
+        <label>Filiere</label>
+        <select name="filiere_id">
+            {% for f in filieres %}
+            <option value="{{ f.id }}">{{ f.nom }} {{ f.niveau }}</option>
+            {% endfor %}
+        </select>
+
+        <div class="actions-row">
+            <button class="btn" type="submit">Enregistrer</button>
+            <a class="btn-ghost" href="{{ url_for('admin.classes') }}">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

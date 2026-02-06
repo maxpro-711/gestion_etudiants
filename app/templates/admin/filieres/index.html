@@ -1,0 +1,35 @@
+{% extends "base/base_admin.html" %}
+
+{% block title %}Filieres{% endblock %}
+{% block page_title %}Filieres{% endblock %}
+{% block page_actions %}
+<a class="btn" href="{{ url_for('admin.add_filiere') }}">Ajouter</a>
+<a class="btn-ghost" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Tableau des filieres -->
+<table>
+    <tr>
+        <th>Nom</th>
+        <th>Niveau</th>
+        <th>Annee</th>
+        <th>Actions</th>
+    </tr>
+    {% for filiere in filieres %}
+    <tr>
+        <td>{{ filiere.nom }}</td>
+        <td>{{ filiere.niveau }}</td>
+        <td>{{ filiere.annee }}</td>
+        <td class="actions-row">
+            <a class="btn-ghost" href="{{ url_for('admin.edit_filiere', id=filiere.id) }}">Modifier</a>
+            <a class="btn-outline" href="{{ url_for('admin.delete_filiere', id=filiere.id) }}">Supprimer</a>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="4">Aucune filiere</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

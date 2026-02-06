@@ -1,0 +1,67 @@
+{% extends "base/base_admin.html" %}
+
+{% block title %}Dashboard Admin{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block page_subtitle %}Vue globale du systeme{% endblock %}
+
+{% block content %}
+<!-- Cartes statistiques -->
+<div class="grid cols-3">
+    <div class="stat">
+        <div class="stat-label">Filieres</div>
+        <div class="stat-value">{{ stats.filieres }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Classes</div>
+        <div class="stat-value">{{ stats.classes }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Matieres</div>
+        <div class="stat-value">{{ stats.matieres }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Enseignants</div>
+        <div class="stat-value">{{ stats.enseignants }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Etudiants</div>
+        <div class="stat-value">{{ stats.etudiants }}</div>
+    </div>
+</div>
+
+<!-- Listes rapides -->
+<div class="grid cols-2">
+    <div class="card">
+        <h3 class="card-title">Classes</h3>
+        <ul>
+            {% for c in classes %}
+                <li>{{ c.nom }}</li>
+            {% else %}
+                <li>Aucune classe</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="card">
+        <h3 class="card-title">Matieres</h3>
+        <ul>
+            {% for m in matieres %}
+                <li>{{ m.nom }} (coef {{ m.coefficient }}, credits {{ m.credits }})</li>
+            {% else %}
+                <li>Aucune matiere</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Liste etudiants -->
+<div class="card">
+    <h3 class="card-title">Etudiants</h3>
+    <ul>
+        {% for e in etudiants %}
+            <li>{{ e.prenom }} {{ e.nom }} - {{ e.classe.nom if e.classe else "-" }}</li>
+        {% else %}
+            <li>Aucun etudiant</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base/base_admin.html" %}
+
+{% block title %}Modifier classe{% endblock %}
+{% block page_title %}Modifier classe{% endblock %}
+{% block page_actions %}
+<a class="btn-ghost" href="{{ url_for('admin.classes') }}">Retour</a>
+<a class="btn" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Formulaire de modification de classe -->
+<div class="card">
+    <form method="POST">
+        <label>Nom</label>
+        <input type="text" name="nom" value="{{ classe.nom }}">
+
+        <label>Filiere</label>
+        <select name="filiere_id">
+            {% for f in filieres %}
+            <option value="{{ f.id }}" {% if classe.filiere_id == f.id %}selected{% endif %}>
+                {{ f.nom }} {{ f.niveau }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <div class="actions-row">
+            <button class="btn" type="submit">Modifier</button>
+            <a class="btn-ghost" href="{{ url_for('admin.classes') }}">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

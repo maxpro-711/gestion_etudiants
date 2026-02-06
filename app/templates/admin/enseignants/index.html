@@ -1,0 +1,48 @@
+{% extends "base/base_admin.html" %}
+
+{% block title %}Enseignants{% endblock %}
+{% block page_title %}Enseignants{% endblock %}
+{% block page_actions %}
+<a class="btn" href="{{ url_for('admin.add_enseignant') }}">Ajouter</a>
+<a class="btn-ghost" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Recherche + tableau enseignants -->
+<div class="card">
+    <input class="search-input" type="text" placeholder="Rechercher..." v-model="searchQuery">
+</div>
+
+<table>
+    <tr>
+        <th>Profil</th>
+        <th>Nom</th>
+        <th>Prenom</th>
+        <th>Login</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for enseignant in enseignants %}
+    <tr v-show="matches('{{ (enseignant.nom or '') ~ ' ' ~ (enseignant.prenom or '') ~ ' ' ~ enseignant.username }}')">
+        <td>
+            {% if enseignant.profile_image %}
+                <img src="{{ url_for('static', filename='uploads/' ~ enseignant.profile_image) }}" alt="Profil" style="width:40px; height:40px; border-radius:12px;">
+            {% else %}
+                -
+            {% endif %}
+        </td>
+        <td>{{ enseignant.nom or "-" }}</td>
+        <td>{{ enseignant.prenom or "-" }}</td>
+        <td>{{ enseignant.username }}</td>
+        <td class="actions-row">
+            <a class="btn-ghost" href="{{ url_for('admin.edit_enseignant', id=enseignant.id) }}">Modifier</a>
+            <a class="btn-outline" href="{{ url_for('admin.delete_enseignant', id=enseignant.id) }}">Supprimer</a>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="5">Aucun enseignant</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

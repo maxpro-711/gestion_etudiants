@@ -1,0 +1,45 @@
+{% extends "base/base_admin.html" %}
+
+{% block title %}Ajouter etudiant{% endblock %}
+{% block page_title %}Ajouter un etudiant{% endblock %}
+{% block page_actions %}
+<a class="btn-ghost" href="{{ url_for('admin.etudiants') }}">Retour</a>
+<a class="btn" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Formulaire d'ajout etudiant -->
+<div class="card">
+    <form method="POST" enctype="multipart/form-data">
+        <label>Nom</label>
+        <input type="text" name="nom">
+
+        <label>Prenom</label>
+        <input type="text" name="prenom">
+
+        <label>Matricule</label>
+        <input type="text" name="matricule">
+
+        <label>Login</label>
+        <input type="text" name="username">
+
+        <label>Mot de passe</label>
+        <input type="password" name="password">
+
+        <label>Photo de profil</label>
+        <input type="file" name="profile_image" accept="image/*">
+
+        <label>Classe</label>
+        <select name="classe_id">
+            {% for c in classes %}
+            <option value="{{ c.id }}">{{ c.nom }}</option>
+            {% endfor %}
+        </select>
+
+        <div class="actions-row">
+            <button class="btn" type="submit">Enregistrer</button>
+            <a class="btn-ghost" href="{{ url_for('admin.etudiants') }}">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

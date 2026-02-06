@@ -1,0 +1,45 @@
+{% extends "base/base_etudiant.html" %}
+
+{% block title %}Dashboard Etudiant{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block page_subtitle %}Vue rapide de votre situation{% endblock %}
+
+{% block content %}
+<!-- Cartes statistiques -->
+<div class="grid cols-3">
+    <div class="stat">
+        <div class="stat-label">Matieres</div>
+        <div class="stat-value">{{ stats.matieres }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Notes</div>
+        <div class="stat-value">{{ stats.notes }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Absences</div>
+        <div class="stat-value">{{ stats.absences }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Moyenne generale</div>
+        <div class="stat-value">{{ stats.moyenne }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Credits valides</div>
+        <div class="stat-value">{{ stats.credits }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Decision</div>
+        <div class="stat-value">{{ stats.decision }}</div>
+    </div>
+</div>
+
+<!-- Raccourcis -->
+<div class="card">
+    <h3 class="card-title">Actions</h3>
+    <div class="actions-row">
+        <a class="btn-outline" href="{{ url_for('etudiant.resultats') }}">Resultats</a>
+        <a class="btn-outline" href="{{ url_for('etudiant.bulletin') }}">Bulletin</a>
+        <a class="btn-outline" href="{{ url_for('etudiant.demandes') }}">Demandes</a>
+    </div>
+</div>
+{% endblock %}

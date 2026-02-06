@@ -1,0 +1,66 @@
+{% extends "base/base_etudiant.html" %}
+
+{% block title %}Resultats{% endblock %}
+{% block page_title %}Resultats{% endblock %}
+{% block page_actions %}
+<a class="btn" href="{{ url_for('etudiant.bulletin') }}">Bulletin</a>
+<a class="btn-ghost" href="{{ url_for('etudiant.dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<!-- Tableau des moyennes par matiere -->
+<table>
+<tr>
+    <th>Matiere</th>
+    <th>Moyenne</th>
+    <th>Validee</th>
+    <th>Credits</th>
+</tr>
+
+{% for m in resultat.matieres %}
+<tr>
+    <td>{{ m.matiere }}</td>
+    <td>{{ m.moyenne }}</td>
+    <td>{{ "Oui" if m.validee else "Non" }}</td>
+    <td>{{ m.credits }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<!-- Bilan general -->
+<div class="card">
+    <h3 class="card-title">Bilan</h3>
+    <p><strong>Moyenne generale :</strong> {{ resultat.moyenne_generale }}</p>
+    <p><strong>Credits valides :</strong> {{ resultat.credits_valides }} / 60</p>
+    <p><strong>Decision :</strong> {{ resultat.decision }}</p>
+    {% if resultat.mention %}
+    <p><strong>Mention :</strong> {{ resultat.mention }}</p>
+    {% endif %}
+</div>
+
+<!-- Detailles absences et appreciations -->
+<div class="card">
+    <h3 class="card-title">Absences et appreciations</h3>
+    <ul>
+    {% for note in current_user.notes %}
+        <li>
+            <strong>{{ note.matiere.nom }}</strong> :
+            {{ "Absent" if note.absence else "Present" }}
+            <br>
+            <em>{{ note.appreciation or "Aucune appreciation" }}</em>
+            <br>
+            {% if note.enseignant %}
+                <span>
+                    {% if note.enseignant.profile_image %}
+                        <img src="{{ url_for('static', filename='uploads/' ~ note.enseignant.profile_image) }}" alt="Profil" style="width:22px; height:22px; border-radius:6px; vertical-align:middle; margin-right:6px;">
+                    {% endif %}
+                    Enseignant: {{ note.enseignant.full_name or note.enseignant.username }}
+                </span>
+            {% endif %}
+        </li>
+    {% else %}
+        <li>Aucune note pour le moment.</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

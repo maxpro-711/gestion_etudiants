@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Enseignant{% endblock %}</title>
+    <!-- Styles globaux partages -->
+    {% include "base/_styles.html" %}
+</head>
+<body class="role-enseignant">
+
+<div class="app-shell">
+    <!-- Sidebar enseignant -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-mark">GE</div>
+            <div class="brand-text">
+                <div class="brand-title">Gestion Etudiants</div>
+                <div class="brand-sub">Espace Enseignant</div>
+            </div>
+        </div>
+
+        <!-- Carte utilisateur -->
+        <div class="user-card">
+            <div class="actions-row">
+                {% if current_user.profile_image %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ current_user.profile_image) }}" alt="Profil" style="width:48px; height:48px; border-radius:14px;">
+                {% else %}
+                    <div style="width:48px; height:48px; border-radius:14px; background: rgba(255,255,255,0.12);"></div>
+                {% endif %}
+                <div>
+                    <div class="user-name">{{ current_user.full_name or current_user.username }}</div>
+                    <div class="user-role">Enseignant</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <a class="nav-link" href="{{ url_for('enseignant.dashboard') }}"><span>Dashboard</span></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="nav-link" href="{{ url_for('auth.logout') }}"><span>Deconnexion</span></a>
+        </div>
+    </aside>
+
+    <!-- Zone principale -->
+    <div class="main">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="btn-ghost sidebar-toggle" type="button" data-toggle="sidebar">Menu</button>
+                <div>
+                    <div class="page-title">{% block page_title %}Dashboard{% endblock %}</div>
+                    <div class="page-subtitle">{% block page_subtitle %}{% endblock %}</div>
+                </div>
+            </div>
+            <div class="actions-row">
+                {% block page_actions %}
+                <a class="btn" href="{{ url_for('enseignant.dashboard') }}">Dashboard</a>
+                {% endblock %}
+            </div>
+        </header>
+
+        <section class="content" id="app" v-cloak>
+            <!-- Messages flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Contenu de page -->
+            {% block content %}{% endblock %}
+        </section>
+    </div>
+</div>
+
+<!-- Overlay mobile pour la sidebar -->
+<div class="sidebar-backdrop" data-toggle="sidebar"></div>
+
+<!-- Vue.js (recherche simple) + gestion sidebar -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script>
+    // Toggle de la sidebar (mobile: overlay, desktop: collapse)
+    (function () {
+        var toggles = document.querySelectorAll("[data-toggle='sidebar']");
+        if (!toggles.length) return;
+        toggles.forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                if (window.innerWidth <= 980) {
+                    document.body.classList.toggle("sidebar-open");
+                } else {
+                    document.body.classList.toggle("sidebar-collapsed");
+                }
+            });
+        });
+    })();
+
+    // Mini app Vue pour filtrer les listes avec searchQuery
+    const { createApp } = Vue;
+    createApp({
+        data() {
+            return {
+                searchQuery: ""
+            };
+        },
+        methods: {
+            matches(text) {
+                if (!this.searchQuery) return true;
+                return String(text).toLowerCase().includes(this.searchQuery.toLowerCase());
+            }
+        }
+    }).mount("#app");
+</script>
+
+</body>
+</html>
